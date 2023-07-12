@@ -4,7 +4,7 @@ import (
 	"net/http"
 
 	"github.com/elizandrodantas/machine-go-server/database"
-	"github.com/elizandrodantas/machine-go-server/model/users"
+	"github.com/elizandrodantas/machine-go-server/entity/users"
 	"github.com/elizandrodantas/machine-go-server/util"
 	"github.com/gin-gonic/gin"
 )

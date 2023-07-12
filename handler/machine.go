@@ -6,9 +6,9 @@ import (
 	"net/http"
 
 	"github.com/elizandrodantas/machine-go-server/database"
+	"github.com/elizandrodantas/machine-go-server/entity/loggers"
+	"github.com/elizandrodantas/machine-go-server/entity/machines"
 	"github.com/elizandrodantas/machine-go-server/middleware"
-	"github.com/elizandrodantas/machine-go-server/model/loggers"
-	"github.com/elizandrodantas/machine-go-server/model/machines"
 	"github.com/elizandrodantas/machine-go-server/tool"
 	"github.com/gin-gonic/gin"
 	"github.com/jmoiron/sqlx"

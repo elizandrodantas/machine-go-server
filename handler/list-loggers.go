@@ -6,7 +6,7 @@ import (
 	"strings"
 
 	"github.com/elizandrodantas/machine-go-server/database"
-	"github.com/elizandrodantas/machine-go-server/model/loggers"
+	"github.com/elizandrodantas/machine-go-server/entity/loggers"
 	"github.com/elizandrodantas/machine-go-server/util"
 	"github.com/gin-gonic/gin"
 )

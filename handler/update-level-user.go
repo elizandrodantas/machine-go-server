@@ -5,8 +5,8 @@ import (
 	"net/http"
 
 	"github.com/elizandrodantas/machine-go-server/database"
-	"github.com/elizandrodantas/machine-go-server/model/auth"
-	"github.com/elizandrodantas/machine-go-server/model/users"
+	"github.com/elizandrodantas/machine-go-server/entity/auth"
+	"github.com/elizandrodantas/machine-go-server/entity/users"
 	"github.com/gin-gonic/gin"
 )
 
