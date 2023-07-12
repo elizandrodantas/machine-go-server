@@ -51,6 +51,8 @@ func (f flags) do_drop() error {
 		return err
 	}
 
+	defer client.Close()
+
 	err = database.DropTables(client)
 
 	if err != nil {
@@ -68,6 +70,8 @@ func (f flags) do_create() error {
 	if err != nil {
 		return err
 	}
+
+	defer client.Close()
 
 	err = database.CreateTables(client)
 
