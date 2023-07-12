@@ -58,8 +58,6 @@ func analyzeIp(ip string) bool {
 		LAST_IP = ip
 	}
 
-	fmt.Println(LAST_IP, ip != LAST_IP, ip)
-
 	return ip != LAST_IP
 }
 
