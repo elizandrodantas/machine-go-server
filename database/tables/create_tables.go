@@ -1,0 +1,53 @@
+package tables
+
+var Create_tables = []string{
+	`CREATE TABLE IF NOT EXISTS machines (
+		id int GENERATED ALWAYS AS IDENTITY,
+		machine_uniqid VARCHAR(255) NOT NULL UNIQUE,
+		machine_name VARCHAR(255) NULL,
+		machine_plataform VARCHAR(255) NOT NULL,
+		active BOOLEAN NOT NULL DEFAULT false,
+		created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+		updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+		
+		PRIMARY KEY(id)
+	);`,
+
+	`CREATE TABLE IF NOT EXISTS users (
+		id INT GENERATED ALWAYS AS IDENTITY,
+		username VARCHAR(50) NOT NULL UNIQUE,
+		password VARCHAR(100) NOT NULL,
+		level INT NOT NULL DEFAULT 1,
+		active BOOLEAN NOT NULL DEFAULT false,
+		active_description VARCHAR(255) NULL,
+		created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP(3),
+		updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+		
+		PRIMARY KEY(id)
+	);`,
+
+	`CREATE TABLE IF NOT EXISTS oauth (
+		id INT GENERATED ALWAYS AS IDENTITY,
+		user_id INT NOT NULL,
+		token VARCHAR(50) NOT NULL,
+		exp INTEGER NOT NULL,
+		iat INTEGER NOT NULL,
+		status BOOL NOT NULL DEFAULT true,
+
+		PRIMARY KEY(id)
+	);`,
+
+	`CREATE TABLE IF NOT EXISTS logger (
+		id INT GENERATED ALWAYS AS IDENTITY,
+		type varchar(50) NOT NULL,
+		description varchar(255) NULL,
+		userid INTEGER NULL,
+		created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+		PRIMARY KEY(id)
+	);`,
+
+	`ALTER TABLE oauth ADD CONSTRAINT Oauth_userId FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE ON UPDATE CASCADE`,
+
+	`INSERT INTO users (username, password, level, active) VALUES ('admin', '$2a$12$m2O0ystg5FCwOsSr2BGvcOxskvejnQNlYEeV6qSxjZc3O1qChJzOy', 12, true)`,
+}
