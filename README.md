@@ -86,11 +86,11 @@ machine-go-server --help
 
 ### 🧩 Swagger
 
-the swagger are in the [/swagger](/machine-go-server/swagger) folder
+the swagger are in the [/swagger](/swagger) folder
 
 ### 🧩 Insominia Exports
 
-the insominia exports are in the [/insominia](/machine-go-server/insomnia) folder
+the insominia exports are in the [/insominia](/insomnia) folder
 
 # License
 
