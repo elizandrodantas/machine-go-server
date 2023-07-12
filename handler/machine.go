@@ -40,6 +40,8 @@ func ValidMachine(ctx *gin.Context) {
 		return
 	}
 
+	defer client.Close()
+
 	machine, err := machines.New(client).FindByMachineId(machineData.MachineId)
 
 	logger := tool.RegisterLogger{

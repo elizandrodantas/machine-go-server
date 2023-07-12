@@ -50,6 +50,8 @@ func RegisterNewUser(ctx *gin.Context) {
 		return
 	}
 
+	defer client.Close()
+
 	u := users.New(client)
 
 	_, err = u.FindByUsername(data.Username)
@@ -113,6 +115,8 @@ func UsernameExistVerify(ctx *gin.Context) {
 		})
 		return
 	}
+
+	defer client.Close()
 
 	u := users.New(client)
 

@@ -45,6 +45,8 @@ func UpdateUserPassword(ctx *gin.Context) {
 		return
 	}
 
+	defer client.Close()
+
 	u := users.New(client)
 
 	err = u.UpdatePassword(userId, data.Password)

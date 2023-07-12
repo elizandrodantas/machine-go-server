@@ -36,6 +36,8 @@ func Login(ctx *gin.Context) {
 		return
 	}
 
+	defer client.Close()
+
 	userModel := users.New(client)
 
 	res, err := userModel.FindByUsername(data.Username)

@@ -23,6 +23,8 @@ func ListUser(ctx *gin.Context) {
 		return
 	}
 
+	defer client.Close()
+
 	resp, err := users.New(client).FindAll(page*util.PAGINATION_LIMIT, util.PAGINATION_LIMIT)
 
 	if err != nil {

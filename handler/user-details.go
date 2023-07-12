@@ -29,6 +29,8 @@ func UserDetails(ctx *gin.Context) {
 		return
 	}
 
+	defer client.Close()
+
 	var res interface{}
 
 	res, err = users.New(client).FindById(id)

@@ -25,6 +25,8 @@ func ListLogger(ctx *gin.Context) {
 		return
 	}
 
+	defer client.Close()
+
 	resp, err := loggers.New(client).FindAll(page*util.PAGINATION_LIMIT, util.PAGINATION_LIMIT)
 
 	if err != nil {

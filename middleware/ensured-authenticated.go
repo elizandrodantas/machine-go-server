@@ -34,6 +34,8 @@ func EnsuredAuthorizationBearer() gin.HandlerFunc {
 			return
 		}
 
+		defer client.Close()
+
 		res, err := auth.New(client).FindByToken(headerToken[1])
 
 		if !res.Active || !res.Status || err != nil || time.Now().Unix() > res.Exp {

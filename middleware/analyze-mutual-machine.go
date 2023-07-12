@@ -26,6 +26,8 @@ func AnalyzeMutualMachines() gin.HandlerFunc {
 			client, err := database.Connect()
 
 			if ok && err == nil {
+				defer client.Close()
+
 				logs, err := loggers.New(client).FindType("MACHINE_VERIFY", true)
 
 				if err == nil {

@@ -17,6 +17,8 @@ func RegisterLoogers(p RegisterLogger) {
 	client, err := database.Connect()
 
 	if err == nil {
+		defer client.Close()
+
 		_, err := loggers.New(client).Create(loggers.LogCreateRequest{
 			Type:        p.Typ,
 			UserId:      p.UserId,

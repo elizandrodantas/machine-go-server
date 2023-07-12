@@ -36,6 +36,8 @@ func ListTokens(ctx *gin.Context) {
 		return
 	}
 
+	defer client.Close()
+
 	resp, err := auth.New(client).FindAll(page*util.PAGINATION_LIMIT, util.PAGINATION_LIMIT)
 
 	if err != nil {

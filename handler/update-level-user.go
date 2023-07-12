@@ -55,6 +55,8 @@ func UpdateLevelUser(ctx *gin.Context) {
 		return
 	}
 
+	defer client.Close()
+
 	userFindInfo, err := users.New(client).FindById(data.Id)
 
 	if err != nil {

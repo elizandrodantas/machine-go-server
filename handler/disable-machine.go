@@ -32,6 +32,8 @@ func DisableMachine(ctx *gin.Context) {
 		return
 	}
 
+	defer client.Close()
+
 	mac := machines.New(client)
 
 	machineInfo, err := mac.FindById(id)

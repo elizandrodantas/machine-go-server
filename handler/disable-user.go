@@ -51,6 +51,8 @@ func DisableUser(ctx *gin.Context) {
 		return
 	}
 
+	defer client.Close()
+
 	userInfo, err := users.New(client).FindById(userId)
 
 	if err != nil {
