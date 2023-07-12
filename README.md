@@ -88,9 +88,9 @@ machine-go-server --help
 
 the swagger are in the [/swagger](/swagger) folder
 
-### 🧩 Insominia Exports
+### 🧩 Insomnia Exports
 
-the insominia exports are in the [/insominia](/insomnia) folder
+the insomnia exports are in the [/insomnia](/insomnia) folder
 
 # License
 
