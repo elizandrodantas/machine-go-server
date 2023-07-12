@@ -6,7 +6,7 @@ import (
 	"time"
 
 	"github.com/elizandrodantas/machine-go-server/database"
-	"github.com/elizandrodantas/machine-go-server/model/auth"
+	"github.com/elizandrodantas/machine-go-server/entity/auth"
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
 )
