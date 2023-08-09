@@ -10,8 +10,8 @@ func GetIpRemoteAddr(ctx *gin.Context) string {
 	ip, _, err := net.SplitHostPort(ctx.Request.RemoteAddr)
 
 	if err != nil {
-		return ip
+		return "null"
 	}
 
-	return ""
+	return ip
 }
