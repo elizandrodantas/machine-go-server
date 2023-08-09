@@ -58,10 +58,12 @@ func UpdateUserPassword(ctx *gin.Context) {
 		return
 	}
 
+	ip := util.GetIpRemoteAddr(ctx)
+
 	defer tool.RegisterLoogers(tool.RegisterLogger{
 		Typ:         loggers.UPDATE_PASSWORD,
 		UserId:      userId,
-		Description: fmt.Sprintf("status=success;ip=%s", ctx.ClientIP()),
+		Description: fmt.Sprintf("status=success;ip=%s", ip),
 	})
 
 	ctx.JSON(http.StatusOK, gin.H{

@@ -10,6 +10,7 @@ import (
 	"github.com/elizandrodantas/machine-go-server/entity/machines"
 	"github.com/elizandrodantas/machine-go-server/middleware"
 	"github.com/elizandrodantas/machine-go-server/tool"
+	"github.com/elizandrodantas/machine-go-server/util"
 	"github.com/gin-gonic/gin"
 	"github.com/jmoiron/sqlx"
 )
@@ -24,6 +25,8 @@ type ValidMachineJsonResponse struct {
 
 func ValidMachine(ctx *gin.Context) {
 	value, exist := ctx.Get("machine_data")
+
+	ip := util.GetIpRemoteAddr(ctx)
 
 	if !exist {
 		ctx.AbortWithStatus(http.StatusForbidden)
@@ -67,7 +70,7 @@ func ValidMachine(ctx *gin.Context) {
 		}
 
 		logger.UserId = int(id)
-		logger.Description = fmt.Sprintf("status=register;ip=%s;machineid=%s;machinename=%s", ctx.ClientIP(), machineData.MachineId, machineData.MachineName)
+		logger.Description = fmt.Sprintf("status=register;ip=%s;machineid=%s;machinename=%s", ip, machineData.MachineId, machineData.MachineName)
 		defer tool.RegisterLoogers(logger)
 
 		data := responseWithCipher(output)
@@ -87,7 +90,7 @@ func ValidMachine(ctx *gin.Context) {
 		}
 
 		logger.UserId = machine.ID
-		logger.Description = fmt.Sprintf("status=disable;ip=%s;machineid=%s;machinename=%s", ctx.ClientIP(), machine.MachineUniqId, machine.MachineName)
+		logger.Description = fmt.Sprintf("status=disable;ip=%s;machineid=%s;machinename=%s", ip, machine.MachineUniqId, machine.MachineName)
 		defer tool.RegisterLoogers(logger)
 
 		data := responseWithCipher(output)
@@ -106,7 +109,7 @@ func ValidMachine(ctx *gin.Context) {
 	}
 
 	logger.UserId = machine.ID
-	logger.Description = fmt.Sprintf("status=success;ip=%s;machineid=%s;machinename=%s", ctx.ClientIP(), machine.MachineUniqId, machine.MachineName)
+	logger.Description = fmt.Sprintf("status=success;ip=%s;machineid=%s;machinename=%s", ip, machine.MachineUniqId, machine.MachineName)
 	defer tool.RegisterLoogers(logger)
 
 	data := responseWithCipher(output)

@@ -73,11 +73,12 @@ func blockMachine(client *sqlx.DB, id string) {
 	machine, err := machineModel.FindByMachineId(id)
 
 	if err != nil {
-		logger.Description = fmt.Sprintf("status=error;ip=null;machineid=%s;machinename=%s;detail=error to find by machine id", machine.MachineUniqId, machine.MachineName)
+		logger.Description = fmt.Sprintf("status=error;ip=null;machineid=%s;machinename=%s;detail=error to find by machine id with id (%s)", machine.MachineUniqId, machine.MachineName, id)
 		log.Println("\x1b[31m[!]\x1b[0m ERROR LOCKING MACHINE [", err.Error(), "]")
 		return
 	}
 
+	logger.UserId = machine.ID
 	err = machineModel.UpdateDisableAccount(machine.ID)
 
 	if err != nil {
@@ -86,7 +87,7 @@ func blockMachine(client *sqlx.DB, id string) {
 		return
 	}
 
-	logger.Description = fmt.Sprintf("status=error;ip=null;machineid=%s;machinename=%s", machine.MachineUniqId, machine.MachineName)
+	logger.Description = fmt.Sprintf("status=success;ip=null;machineid=%s;machinename=%s;detail=successfully blocked user", machine.MachineUniqId, machine.MachineName)
 	tool.RegisterLoogers(logger)
 }
 

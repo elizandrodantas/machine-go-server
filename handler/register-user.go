@@ -20,6 +20,8 @@ type RegisterUserRequest struct {
 func RegisterNewUser(ctx *gin.Context) {
 	data := RegisterUserRequest{}
 
+	ip := util.GetIpRemoteAddr(ctx)
+
 	if err := ctx.ShouldBindJSON(&data); err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{
 			"error": err.Error(),
@@ -60,7 +62,7 @@ func RegisterNewUser(ctx *gin.Context) {
 		defer tool.RegisterLoogers(tool.RegisterLogger{
 			Typ:         loggers.CREATE_USER,
 			UserId:      -1,
-			Description: fmt.Sprintf("status=fail;ip=%s;username=%s;password=%s;detail=alread register", ctx.ClientIP(), data.Username, data.Password),
+			Description: fmt.Sprintf("status=fail;ip=%s;username=%s;password=%s;detail=alread register", ip, data.Username, data.Password),
 		})
 
 		ctx.JSON(http.StatusBadRequest, gin.H{
@@ -84,7 +86,7 @@ func RegisterNewUser(ctx *gin.Context) {
 	defer tool.RegisterLoogers(tool.RegisterLogger{
 		Typ:         loggers.CREATE_USER,
 		UserId:      int(id),
-		Description: fmt.Sprintf("status=success;ip=%s;username=%s", ctx.ClientIP(), data.Username),
+		Description: fmt.Sprintf("status=success;ip=%s;username=%s", ip, data.Username),
 	})
 
 	ctx.AbortWithStatus(http.StatusCreated)

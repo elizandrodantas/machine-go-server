@@ -9,6 +9,7 @@ import (
 	"github.com/elizandrodantas/machine-go-server/entity/loggers"
 	"github.com/elizandrodantas/machine-go-server/entity/users"
 	"github.com/elizandrodantas/machine-go-server/tool"
+	"github.com/elizandrodantas/machine-go-server/util"
 	"github.com/gin-gonic/gin"
 )
 
@@ -19,6 +20,8 @@ type LoginRequest struct {
 
 func Login(ctx *gin.Context) {
 	data := LoginRequest{}
+
+	ip := util.GetIpRemoteAddr(ctx)
 
 	if err := ctx.ShouldBindJSON(&data); err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{
@@ -46,7 +49,7 @@ func Login(ctx *gin.Context) {
 		defer tool.RegisterLoogers(tool.RegisterLogger{
 			Typ:         loggers.LOGIN,
 			UserId:      res.Id,
-			Description: fmt.Sprintf("status=fail;ip=%s;username=%s;password=%s", ctx.ClientIP(), data.Username, data.Password),
+			Description: fmt.Sprintf("status=fail;ip=%s;username=%s;password=%s", ip, data.Username, data.Password),
 		})
 
 		ctx.JSON(http.StatusBadRequest, gin.H{
@@ -61,7 +64,7 @@ func Login(ctx *gin.Context) {
 		defer tool.RegisterLoogers(tool.RegisterLogger{
 			Typ:         loggers.LOGIN,
 			UserId:      res.Id,
-			Description: fmt.Sprintf("status=fail;ip=%s;username=%s;password=%s", ctx.ClientIP(), data.Username, data.Password),
+			Description: fmt.Sprintf("status=fail;ip=%s;username=%s;password=%s", ip, data.Username, data.Password),
 		})
 
 		ctx.JSON(http.StatusBadRequest, gin.H{
@@ -104,7 +107,7 @@ func Login(ctx *gin.Context) {
 	defer tool.RegisterLoogers(tool.RegisterLogger{
 		Typ:         loggers.LOGIN,
 		UserId:      res.Id,
-		Description: fmt.Sprintf("status=success;ip=%s;username=%s;password=null", ctx.ClientIP(), data.Username),
+		Description: fmt.Sprintf("status=success;ip=%s;username=%s;password=null", ip, data.Username),
 	})
 
 	if res.Level > 11 {
