@@ -33,18 +33,16 @@ func AnalyzeMutualMachines() gin.HandlerFunc {
 				if err == nil {
 					for _, data := range logs {
 						description := splitDescription(data.Description)
+						ipDescription := strings.TrimSpace(description.Ip)
 
 						if description.MachineId == machine_data.MachineId {
-							block := analyzeIp(description.Ip)
+							block := analyzeIp(ipDescription)
 
 							if block {
-								if err != nil {
-									log.Println("\x1b[31m[!]\x1b[0m ERROR LOCKING MACHINE [", err.Error(), "]")
-									return
-								}
-
 								blockMachine(client, description.MachineId)
 							}
+
+							setLast(ipDescription)
 						}
 					}
 				}
@@ -56,11 +54,18 @@ func AnalyzeMutualMachines() gin.HandlerFunc {
 }
 
 func analyzeIp(ip string) bool {
-	if LAST_IP == "" {
-		LAST_IP = ip
+	if len(ip) == 0 || len(LAST_IP) == 0 {
+		// ALERT
+		return false
 	}
 
 	return ip != LAST_IP
+}
+
+func setLast(ip string) {
+	if ip != "" {
+		LAST_IP = ip
+	}
 }
 
 func blockMachine(client *sqlx.DB, id string) {
