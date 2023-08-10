@@ -18,8 +18,8 @@ type MachineCreateRequest struct {
 }
 
 type MachineResponse struct {
-	ID               int       `json:"-" db:"id"`
-	MachineUniqId    string    `json:"-" db:"machine_uniqid"`
+	ID               int       `json:"id" db:"id"`
+	MachineUniqId    string    `json:"guid" db:"machine_uniqid"`
 	MachineName      string    `json:"machine_name" db:"machine_name"`
 	MachinePlataform string    `json:"machine_plataform" db:"machine_plataform"`
 	Active           bool      `json:"active" db:"active"`

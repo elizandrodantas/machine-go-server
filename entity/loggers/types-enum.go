@@ -32,3 +32,16 @@ func (y LoggerType) String() string {
 func IsValidLoggerType(y LoggerType) bool {
 	return y >= UPDATE_PASSWORD && y <= SUSPECT_MACHINE
 }
+
+func IsValidString(typ string) bool {
+	res := false
+
+	for _, k := range TypesNames {
+		if k == typ {
+			res = true
+			break
+		}
+	}
+
+	return res
+}

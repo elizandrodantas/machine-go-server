@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"fmt"
 	"net/http"
 	"regexp"
 	"strings"
@@ -13,6 +14,8 @@ import (
 
 func ListLogger(ctx *gin.Context) {
 	queryPage := ctx.Query("page")
+	queryType := ctx.Query("type")
+	queryQ := ctx.Query("q")
 
 	page := util.ResolvePagination(queryPage)
 
@@ -27,7 +30,25 @@ func ListLogger(ctx *gin.Context) {
 
 	defer client.Close()
 
-	resp, err := loggers.New(client).FindAll(page*util.PAGINATION_LIMIT, util.PAGINATION_LIMIT)
+	condition := ""
+
+	if queryType != "" {
+		upperType := strings.ToUpper(queryType)
+
+		valid := loggers.IsValidString(upperType)
+
+		if !valid {
+			ctx.JSON(http.StatusBadRequest, gin.H{
+				"error": fmt.Sprintf("query type `%s` invalid", queryType),
+			})
+			ctx.Abort()
+			return
+		}
+
+		condition = fmt.Sprintf("WHERE type = '%s'", upperType)
+	}
+
+	resp, err := loggers.New(client).FindAll(page*util.PAGINATION_LIMIT, util.PAGINATION_LIMIT, condition)
 
 	if err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{
@@ -36,37 +57,16 @@ func ListLogger(ctx *gin.Context) {
 		return
 	}
 
-	filterQ := ctx.Query("q")
-	filterTyp := ctx.Query("type")
-
 	var output = &resp
 
-	if filterTyp != "" {
-		output = filterType(output, filterTyp)
-	}
-
-	if filterQ != "" {
-		output = filterQuery(output, filterQ)
+	if queryQ != "" {
+		output = filterQuery(output, queryQ)
 	}
 
 	ctx.JSON(http.StatusOK, gin.H{
 		"count": len(*output),
 		"data":  output,
 	})
-}
-
-func filterType(resp *[]loggers.LogResponse, filterType string) *[]loggers.LogResponse {
-	var output []loggers.LogResponse
-
-	for _, i := range *resp {
-		upper := strings.ToUpper(i.Type)
-
-		if upper == filterType {
-			output = append(output, i)
-		}
-	}
-
-	return &output
 }
 
 func filterQuery(resp *[]loggers.LogResponse, filterMatch string) *[]loggers.LogResponse {

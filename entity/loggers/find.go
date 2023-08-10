@@ -1,7 +1,11 @@
 package loggers
 
-func (y *Logs) FindAll(page, limit int) (res []LogResponse, err error) {
-	err = y.Client.Select(&res, `SELECT * FROM logger ORDER BY id LIMIT $1 OFFSET $2`, limit, page)
+import "fmt"
+
+func (y *Logs) FindAll(page, limit int, condition string) (res []LogResponse, err error) {
+	row := `SELECT * FROM logger %s ORDER BY id LIMIT $1 OFFSET $2`
+
+	err = y.Client.Select(&res, fmt.Sprintf(row, condition), limit, page)
 
 	return
 }
